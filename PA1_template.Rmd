@@ -21,31 +21,42 @@ head(dat)
 sumsteps <- tapply(dat$steps,dat$date,sum,na.rm=TRUE)
 head(sumsteps)
 hist(sumsteps)
+mean_sumsteps <- round(mean(sumsteps),2)
+median_sumsteps <- round(median(sumsteps),2)
 ```
 
-The mean is ```r round(mean(sumsteps),2)``` and the median is ```r round(median(sumsteps),2)```
+The mean is ```r mean_sumsteps``` and the median is ```r median_sumsteps```
 
 ## What is the average daily activity pattern?
 ```{r}
 avgsteps <- aggregate(dat$steps,by=list(dat$interval),mean,na.rm=TRUE)
 plot(x ~ Group.1, avgsteps, xlab = "interval", ylab = "average steps", main = "Time Series plot by interval", type="l")
 maxstep <- avgsteps[which.max(avgsteps$x),]
+maxinterval <- maxstep$Group.1
+maxvalue <- round(maxstep$x,2)
 ```
 
-Maximum Interval ```r maxstep$Group.1``` and its corresponding value ```r round(maxstep$x,2)```
+Maximum Interval ```r maxinterval``` and its corresponding value ```r maxvalue ```
 
 ## Imputing missing values
 ```{r}
 sum(is.na(dat))
 dat2 <- dat
+```
+
+The choosing strategy is to fill the missing value by its average value on that interval.
+
+```{r}
 dat2[is.na(dat2$steps),]$steps <- avgsteps[avgsteps$Group.1==dat2[is.na(dat2$steps),]$interval,"x"]
 head(dat2)
 sumsteps2 <- tapply(dat2$steps,dat2$date,sum,na.rm=TRUE)
 head(sumsteps2)
 hist(sumsteps2)
+mean_sumsteps2 <- round(mean(sumsteps2),2)
+median_sumsteps2 <- round(median(sumsteps2),2)
 ```
 
-The mean is ```r round(mean(sumsteps2),2)``` and the median is ```r round(median(sumsteps2),2)```
+The mean is ```r mean_sumsteps2``` and the median is ```r median_sumsteps2```
 
 The mean and median changed a bit (higher than before). The total daily number of steps increase since some missing data are filled in.
 

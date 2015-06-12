@@ -41,6 +41,11 @@ hist(sumsteps)
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
+```r
+mean_sumsteps <- round(mean(sumsteps),2)
+median_sumsteps <- round(median(sumsteps),2)
+```
+
 The mean is ``9354.23`` and the median is ``10395``
 
 ## What is the average daily activity pattern?
@@ -54,6 +59,8 @@ plot(x ~ Group.1, avgsteps, xlab = "interval", ylab = "average steps", main = "T
 
 ```r
 maxstep <- avgsteps[which.max(avgsteps$x),]
+maxinterval <- maxstep$Group.1
+maxvalue <- round(maxstep$x,2)
 ```
 
 Maximum Interval ``835`` and its corresponding value ``206.17``
@@ -70,6 +77,12 @@ sum(is.na(dat))
 
 ```r
 dat2 <- dat
+```
+
+The choosing strategy is to fill the missing value by its average value on that interval.
+
+
+```r
 dat2[is.na(dat2$steps),]$steps <- avgsteps[avgsteps$Group.1==dat2[is.na(dat2$steps),]$interval,"x"]
 head(dat2)
 ```
@@ -98,7 +111,12 @@ head(sumsteps2)
 hist(sumsteps2)
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+
+```r
+mean_sumsteps2 <- round(mean(sumsteps2),2)
+median_sumsteps2 <- round(median(sumsteps2),2)
+```
 
 The mean is ``9530.72`` and the median is ``10439``
 
@@ -121,4 +139,4 @@ xyplot(avgsteps2$x ~ avgsteps2$Group.1 | avgsteps2$Group.2,
        xlab = "interval", ylab = "average steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![](PA1_template_files/figure-html/unnamed-chunk-7-1.png) 
